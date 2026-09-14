@@ -130,6 +130,10 @@
   .priority-Low .priority-dot{background:var(--grey);}
   .priority-Critical .priority-dot{background:var(--burgundy);}
   .task-title{font-weight:600;font-size:.96rem;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .task-done{
+    grid-column:1/-1;font-size:.83rem;color:var(--ink-soft);line-height:1.5;
+    white-space:pre-line;padding:2px 0 0;border-left:2px solid var(--sand-line);padding-left:10px;
+  }
   .task-sub{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:16px;margin-top:-2px;font-size:.83rem;color:var(--ink-soft);}
   .task-sub .next{font-weight:600;color:var(--slate);}
   .task-sub .support{font-weight:700;color:var(--clay);}
@@ -451,6 +455,7 @@ function taskRow(r){
   const value = parseMoney(r["Commercial Value"]);
   const support = (r["Support Required"]||"").trim();
   const next = (r["Next Action"]||"").trim();
+  const done = (r["Activities / Actions Taken"]||"").trim();
 
   return `<div class="task-row ${statusClass(status)} ${priorityClass(priority)}">
     <div class="task-main">
@@ -463,6 +468,7 @@ function taskRow(r){
       <span class="task-progress-pct">${pct}%</span>
     </div>
     <div class="task-value">${value ? formatNaira(value) : "—"}<span class="rev-status">${escapeHtml(r["Revenue Status"]||"")}</span></div>
+    ${done ? `<div class="task-done">${escapeHtml(done)}</div>` : ""}
     <div class="task-sub">
       <span>${escapeHtml(r["Task Owner"]||"")}</span>
       ${r["Due Date"] ? `<span>Due ${escapeHtml(r["Due Date"])}</span>` : ""}
